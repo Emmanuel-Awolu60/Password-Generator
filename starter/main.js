@@ -1,11 +1,11 @@
 const empty = "";
 const uCase = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
 const lCase = "abcdefghijklmnopqrstuvwxyz";
-const number = "1234567890";
+const number = "01234567890";
 const symbol = "!@#$%^&*-_=";
 
 const pLength = document.getElementById("p-length");
-// const upperCase = document.getElementById("p-uppercase");
+const upperCase = document.getElementById("p-uppercase");
 const lowerCase = document.getElementById("p-lowercase");
 const pNumber = document.getElementById("p-number");
 const pSymbol = document.getElementById("p-symbols");
@@ -14,10 +14,10 @@ const submit = document.getElementById("submit");
 
 submit.addEventListener("click", () => {
   let = initialPassword = empty;
-  (upperCase.checked) ? initialPassword += uCase : "";
-  (lowerCase.checked)? initialPassword += lCase : "";
-  (pNumber.checked) ? initialPassword += number : "";
-  (pSymbol.checked) ? initialPassword += symbol : "";
+  upperCase.checked ? (initialPassword += uCase) : "";
+  lowerCase.checked ? (initialPassword += lCase) : "";
+  pNumber.checked ? (initialPassword += number) : "";
+  pSymbol.checked ? (initialPassword += symbol) : "";
 
   password.value = generatePassword(pLength.value, initialPassword);
 });
@@ -25,9 +25,26 @@ submit.addEventListener("click", () => {
 function generatePassword(l, initialPassword) {
   let pass = "";
   for (let i = 0; i < l; i++) {
-    pass += initialPassword(
+    pass += initialPassword.charAt(
       Math.floor(Math.random() * initialPassword.length)
     );
   }
   return pass;
 }
+
+const copyBtn = document.getElementById("copy");
+
+copyBtn.addEventListener("click", () => {
+  if (password.value === "") {
+    alert("Generete a passeord");
+  } else {
+    password.select();
+    document.execCommand("copy");
+    alert("Password as been copied to clipboard");
+  }
+});
+
+window.addEventListener("beforeunload", function (event) {
+  event.preventDefault();
+  return (event.returnValue = "");
+});
